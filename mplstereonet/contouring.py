@@ -35,7 +35,7 @@ def _count_points(lons, lats, func, sigma, gridsize=(100,100), weights=None):
     for i, xyz in enumerate(xyz_counters):
         cos_dist = np.abs(np.dot(xyz, xyz_points.T))
         density, scale = func(cos_dist, sigma)
-        density *= weights
+        np.multiply(density, weights, out=density, casting='unsafe')
         totals[i] = (density.sum() - 0.5) / scale
 
     # Traditionally, the negative values (while valid, as they represent areas
