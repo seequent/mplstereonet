@@ -14,6 +14,7 @@ from . import stereonet_math
 from . import contouring
 from . import stereonet_transforms
 
+
 class StereonetAxes(LambertAxes):
     """An axes representing a lower-hemisphere "schmitt" (a.k.a. equal area)
     projection."""
@@ -90,8 +91,8 @@ class StereonetAxes(LambertAxes):
         yaxis_text_base = \
             yaxis_stretch + \
             self.transProjection + \
-            (yaxis_space + \
-             self.transAffine + \
+            (yaxis_space +
+             self.transAffine +
              self.transAxes)
         self._yaxis_text1_transform = \
             yaxis_text_base + \
@@ -100,13 +101,14 @@ class StereonetAxes(LambertAxes):
             yaxis_text_base + \
             Affine2D().translate(8.0, 0.0)
 
-    def set_longitude_grid(self, degrees):
+    def set_longitude_grid(self, degrees, stereonet_type='equatorial'):
         """
         Set the number of degrees between each longitude grid.
         """
         number = (360.0 / degrees) + 1
         locs = np.linspace(-np.pi, np.pi, number, True)[1:]
-        locs[-1] -= 0.01 # Workaround for "back" gridlines showing.
+        if stereonet_type != 'polar':
+            locs[-1] -= 0.01  # Workaround for "back" gridlines showing on equatorial
         self.xaxis.set_major_locator(FixedLocator(locs))
         self._logitude_degrees = degrees
         self.xaxis.set_major_formatter(self.ThetaFormatter(degrees))
@@ -228,7 +230,7 @@ class StereonetAxes(LambertAxes):
         self._overlay_axes.grid(True, which, axis, **kwargs)
         self._gridOn = True
 
-    grid.__doc__ += Axes.grid.__doc__
+    grid.__doc__ = Axes.grid.__doc__
 
     def _add_overlay(self, center):
         """
@@ -276,7 +278,7 @@ class StereonetAxes(LambertAxes):
 
     # Use the existing docstring...
     set_longitude_grid_ends.__doc__ =\
-            LambertAxes.set_longitude_grid_ends.__doc__
+        LambertAxes.set_longitude_grid_ends.__doc__
 
     @property
     def _polar(self):
@@ -289,7 +291,7 @@ class StereonetAxes(LambertAxes):
         except AttributeError:
             fig = self.get_figure()
             self._hidden_polar_axes = fig.add_axes(self.get_position(True),
-                                        frameon=False, projection='polar')
+                                                   frameon=False, projection='polar')
             self._hidden_polar_axes.format_coord = self._polar_format_coord
             return self._hidden_polar_axes
 
@@ -823,10 +825,12 @@ class EqualAngleAxes(StereonetAxes):
     _scale = 2.0
     name = 'equal_angle_stereonet'
 
+
 class EqualAreaAxes(StereonetAxes):
     """An axes representing a lower-hemisphere "Schmitt" (a.k.a. equal area)
     projection."""
     name = 'equal_area_stereonet'
+
 
 # We need to define explict subplot classes so that we don't mess up the
 # method resolution order when using matplotlib subplots.
@@ -838,4 +842,3 @@ EqualAreaAxesSubplot.__module__ = EqualAngleAxes.__module__
 register_projection(StereonetAxes)
 register_projection(EqualAreaAxes)
 register_projection(EqualAngleAxes)
-

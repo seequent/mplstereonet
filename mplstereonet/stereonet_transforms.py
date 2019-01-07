@@ -102,7 +102,7 @@ class BaseForwardTransform(BaseStereonetTransform):
 class BaseInvertedTransform(BaseStereonetTransform):
     """A base class for both Lambert and Stereographic inverse transforms."""
     _inverse_type = 'BaseForwardTransform'
-    def transform_non_affine(self, xy):
+    def transform(self, xy):
         x = xy[:, 0:1]
         y = xy[:, 1:2]
         clong = self._center_longitude
@@ -118,8 +118,7 @@ class BaseInvertedTransform(BaseStereonetTransform):
                 (x*sin_c) / (p*np.cos(clat)*cos_c - y*np.sin(clat)*sin_c))
 
         return np.concatenate((lon, lat), 1)
-    transform_non_affine.__doc__ = \
-            BaseStereonetTransform.transform_non_affine.__doc__
+    transform.__doc__ = BaseStereonetTransform.transform.__doc__
 
 
     def _calculate_c(self, p):
