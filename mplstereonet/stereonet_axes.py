@@ -49,8 +49,8 @@ class StereonetAxes(LambertAxes):
         kwargs['center_longitude'] = x0
 
         self._overlay_axes = None
-
         LambertAxes.__init__(self, *args, **kwargs)
+
 
     def _get_core_transform(self, resolution):
         """The projection for the stereonet as a matplotlib transform. This is
@@ -100,12 +100,14 @@ class StereonetAxes(LambertAxes):
             yaxis_text_base + \
             Affine2D().translate(8.0, 0.0)
 
-    def set_longitude_grid(self, degrees):
+    def set_longitude_grid(self, degrees, stereonet_type='equatorial'):
         """
         Set the number of degrees between each longitude grid.
         """
         number = (360.0 / degrees) + 1
         locs = np.linspace(-np.pi, np.pi, number, True)[1:]
+        if stereonet_type != 'polar':
+            locs[-1] -= 0.01  # Workaround for "back" gridlines showing on equatorial
         self.xaxis.set_major_locator(FixedLocator(locs))
         self._logitude_degrees = degrees
         self.xaxis.set_major_formatter(self.ThetaFormatter(degrees))
