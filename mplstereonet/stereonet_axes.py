@@ -101,17 +101,21 @@ class StereonetAxes(LambertAxes):
             yaxis_text_base + \
             Affine2D().translate(8.0, 0.0)
 
-    def set_longitude_grid(self, degrees, stereonet_type='equatorial'):
+    def set_longitude_grid(self, degrees):
         """
         Set the number of degrees between each longitude grid.
         """
         number = (360.0 / degrees) + 1
         locs = np.linspace(-np.pi, np.pi, number, True)[1:]
-        if stereonet_type != 'polar':
+        if self._overlay_axes is not None:
+            axes = self._overlay_axes
+        else:
             locs[-1] -= 0.01  # Workaround for "back" gridlines showing on equatorial
-        self.xaxis.set_major_locator(FixedLocator(locs))
-        self._logitude_degrees = degrees
-        self.xaxis.set_major_formatter(self.ThetaFormatter(degrees))
+            axes = self
+            
+        axes.xaxis.set_major_locator(FixedLocator(locs))
+        axes._logitude_degrees = degrees
+        axes.xaxis.set_major_formatter(axes.ThetaFormatter(degrees))
 
     def set_position(self, pos, which='both'):
         """Identical to Axes.set_position (This docstring is overwritten)."""
@@ -230,7 +234,7 @@ class StereonetAxes(LambertAxes):
         self._overlay_axes.grid(True, which, axis, **kwargs)
         self._gridOn = True
 
-    grid.__doc__ = Axes.grid.__doc__
+    grid.__doc__ += Axes.grid.__doc__
 
     def _add_overlay(self, center):
         """
