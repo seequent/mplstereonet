@@ -117,6 +117,15 @@ class StereonetAxes(LambertAxes):
         axes._logitude_degrees = degrees
         axes.xaxis.set_major_formatter(axes.ThetaFormatter(degrees))
 
+    def set_latitude_grid(self, degrees):
+        """
+        Set the number of degrees between each longitude grid.
+        """
+        if self._overlay_axes is not None:
+            self._overlay_axes.set_latitude_grid(degrees)
+        else:
+            super(StereonetAxes, self).set_latitude_grid(degrees)
+
     def set_position(self, pos, which='both'):
         """Identical to Axes.set_position (This docstring is overwritten)."""
         self._polar.set_position(pos, which)
