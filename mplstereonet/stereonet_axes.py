@@ -243,7 +243,7 @@ class StereonetAxes(LambertAxes):
         self._overlay_axes.grid(True, which, axis, **kwargs)
         self._gridOn = True
 
-    grid.__doc__ += Axes.grid.__doc__
+    grid.__doc__ = (grid.__doc__ + Axes.grid.__doc__) if grid.__doc__ and Axes.grid.__doc__ else None
 
     def _add_overlay(self, center):
         """
