@@ -105,7 +105,7 @@ class StereonetAxes(LambertAxes):
         """
         Set the number of degrees between each longitude grid.
         """
-        number = (360.0 / degrees) + 1
+        number = int(360.0 / degrees) + 1
         locs = np.linspace(-np.pi, np.pi, number, True)[1:]
         if self._overlay_axes is not None:
             axes = self._overlay_axes
