@@ -105,7 +105,7 @@ class StereonetAxes(LambertAxes):
         """
         Set the number of degrees between each longitude grid.
         """
-        number = int(360.0 / degrees) + 1
+        number = int((360.0 / degrees) + 1)
         locs = np.linspace(-np.pi, np.pi, number, True)[1:]
         if self._overlay_axes is not None:
             axes = self._overlay_axes
@@ -340,7 +340,7 @@ class StereonetAxes(LambertAxes):
         return self._polar.set_thetagrids(angles, labels, frac, **kwargs)
 
     def get_azimuth_ticks(self, minor=False):
-        return self._polar.get_xticks(minor)
+        return self._polar.get_xticks(minor=minor)
 
     def set_azimuth_ticklabels(self, labels, fontdict=None, **kwargs):
         """
@@ -353,7 +353,7 @@ class StereonetAxes(LambertAxes):
         **kwargs
             Additional parameters are text properties for the labels.
         """
-        return self._polar.set_xticklabels(labels, fontdict, **kwargs)
+        return self._polar.set_xticklabels(labels, fontdict=fontdict, **kwargs)
 
     def get_azimuth_ticklabels(self, minor=False):
         """Get the azimuth tick labels as a list of Text artists."""
