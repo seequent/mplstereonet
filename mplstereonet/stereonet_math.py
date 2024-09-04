@@ -157,7 +157,7 @@ def plane(strike, dip, segments=100, center=(0, 0)):
     """
     lon0, lat0 = center
     strikes, dips = np.atleast_1d(strike, dip)
-    lons = np.zeros((segments, strikes.size), dtype=np.float)
+    lons = np.zeros((segments, strikes.size), dtype=np.float64)
     lats = lons.copy()
     for i, (strike, dip) in enumerate(zip(strikes, dips)):
         # We just plot a line of constant longitude and rotate it by the strike.
@@ -597,7 +597,7 @@ def azimuth2rake(strike, dip, azimuth):
         values correspond to the opposite end of the strike.
     """
     plunge, bearing = plane_intersection(strike, dip, azimuth, 90)
-    rake = project_onto_plane(strike, dip, plunge, bearing)
+    rake, = project_onto_plane(strike, dip, plunge, bearing)
     return rake
 
 def xyz2stereonet(x, y, z):
