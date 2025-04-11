@@ -7,7 +7,7 @@ with open(os.path.join(dirname, 'README.rst'), 'r') as infile:
 
 setup(
     name = 'mplstereonet',
-    version = '0.7-dev',
+    version = '0.6.3.post2',
     description = "Stereonets for matplotlib",
     long_description=long_description,
     long_description_content_type='text/x-rst',
@@ -17,6 +17,6 @@ setup(
     url = 'https://github.com/joferkington/mplstereonet/',
     packages = ['mplstereonet'],
     install_requires = [
-        'matplotlib >= 1.1',
-        'numpy >= 1.1']
+        'matplotlib >= 3.9',
+        'numpy >= 1.26']
 )

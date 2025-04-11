@@ -152,9 +152,9 @@ class StereonetAxes(LambertAxes):
     # matplotlib-style getters and setters.
     rotation = property(get_rotation, set_rotation)
 
-    def cla(self):
-        """Identical to Axes.cla (This docstring is overwritten)."""
-        Axes.cla(self)
+    def clear(self):
+        """Identical to Axes.clear (This docstring is overwritten)."""
+        Axes.clear(self)
 
         # Set grid defaults...
         self.set_longitude_grid(10)
@@ -184,7 +184,7 @@ class StereonetAxes(LambertAxes):
         self._polar.set_rticks([])
 
     # Use default docstring, as usage is identical.
-    cla.__doc__ = Axes.cla.__doc__
+    clear.__doc__ = Axes.clear.__doc__
 
     def format_coord(self, x, y):
         """Format displayed coordinates during mouseover of axes."""
